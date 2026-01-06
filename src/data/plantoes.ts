@@ -19,7 +19,7 @@ export const plantoes: Plantao[] = [
         regime: 'Sobreaviso',
         inicio: '08:00',
         fim: '18:00',
-        whatsapp: '5511988888888',
+        whatsapp: '+5567999725398',
         email: 'igormenezes@grpereira.com.br',
       },
       {

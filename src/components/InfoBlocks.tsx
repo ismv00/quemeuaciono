@@ -20,7 +20,7 @@ const items = [
 
 export function InfoBlocks() {
   return (
-    <section className="grid gap-6 md:grid-cols-3">
+    <section className="grid gap-6 md:grid-cols-3 py-4">
       {items.map((item, index) => (
         <div
           key={index}

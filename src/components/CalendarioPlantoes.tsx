@@ -62,7 +62,49 @@ export function CalendarioPlantoes() {
       </div>
 
       {/**MES */}
-      <p>{formatMonth(currentDate)}</p>
+      <p className="mb-4 text-center text-sm capitalize text-gray-600">
+        {formatMonth(currentDate)}
+      </p>
+
+      {/**DIAS DA SEMANA */}
+      <div className="mb-2 grid grid-cols-7 text-center text-xs text-gray-500">
+        {['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'].map((d) => (
+          <span key={d}>{d}</span>
+        ))}
+      </div>
+
+      {/**DIAS */}
+      <div className="grid grid-cols-7 gap-2 text-center">
+        {Array.from({ length: total }).map((_, i) => (
+          <span key={i} />
+        ))}
+
+        {Array.from({ length: total }).map((_, i) => {
+          const day = i + 1;
+          const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+            .toISOString()
+            .split('T')[0];
+
+          const hasPlantao = plantaoDates.includes(dateStr);
+          const isSelected = selectedDate === dateStr;
+
+          return (
+            <button
+              key={day}
+              onClick={() => hasPlantao && setSelectedDate(dateStr)}
+              className={[
+                'rounded-md py-1 text-sm',
+                hasPlantao
+                  ? 'bg-brand-50 text-brand-700 hover:bg-brand-100'
+                  : 'text-gray-400 cursor-default',
+                isSelected && 'ring-2 ring-brand-500',
+              ].join(' ')}
+            >
+              {day}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
