@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
-import { plantoes } from '../data/plantoes';
+import { Plantao } from '../types/Plantao';
+
+type Props = {
+  plantoes: Plantao[];
+  selectedDate: string | null;
+  onSelectDate: (date: string) => void;
+};
 
 function formatMonth(date: Date) {
   return date.toLocaleDateString('pt-BR', {
@@ -24,18 +30,17 @@ function getMonthDays(date: Date) {
   };
 }
 
-export function CalendarioPlantoes() {
+export function CalendarioPlantoes({ plantoes, selectedDate, onSelectDate }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const { start, total } = getMonthDays(currentDate);
-
   const plantaoDates = plantoes.map((p) => p.data);
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      {/* HEADER */}
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-medium text-gray-900">
+        <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
           <Calendar size={18} />
           Calendário de Plantões
         </div>
@@ -91,12 +96,12 @@ export function CalendarioPlantoes() {
           return (
             <button
               key={day}
-              onClick={() => hasPlantao && setSelectedDate(dateStr)}
+              onClick={() => onSelectDate(dateStr)}
               className={[
-                'rounded-md py-1 text-sm',
+                'rounded-md py-1 text-sm transition',
                 hasPlantao
                   ? 'bg-brand-50 text-brand-700 hover:bg-brand-100'
-                  : 'text-gray-400 cursor-default',
+                  : 'text-gray-600 hover:bg-gray-100',
                 isSelected && 'ring-2 ring-brand-500',
               ].join(' ')}
             >
