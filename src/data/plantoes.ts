@@ -42,7 +42,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Fabio Lopes',
-        area: 'WMS',
+        area: 'WMS - Logística',
         regime: 'Sobreaviso',
         inicio: '08:00',
         fim: '18:00',
@@ -51,7 +51,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Fabricio Gerbasi',
-        area: 'BKOFF',
+        area: 'BKOFF - Financeiro',
         regime: 'Sobreaviso',
         inicio: '08:00',
         fim: '18:00',
