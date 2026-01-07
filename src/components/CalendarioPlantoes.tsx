@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
-import { plantoes } from '../data/plantoes';
+import { Plantao } from '../types/Plantao';
 
 type Props = {
+  plantoes: Plantao[];
   selectedDate: string | null;
   onSelectDate: (date: string) => void;
 };
@@ -29,7 +30,7 @@ function getMonthDays(date: Date) {
   };
 }
 
-export function CalendarioPlantoes({ selectedDate, onSelectDate }: Props) {
+export function CalendarioPlantoes({ plantoes, selectedDate, onSelectDate }: Props) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const { start, total } = getMonthDays(currentDate);

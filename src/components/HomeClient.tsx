@@ -1,0 +1,55 @@
+'use client';
+
+import { useState } from 'react';
+import { Users } from 'lucide-react';
+import { Plantao } from '@/src/types/Plantao';
+import { CalendarioPlantoes } from '@/src/components/CalendarioPlantoes';
+import { ListaAnalistas } from '@/src/components/ListaAnalistas';
+import { EmptyStateAnalistas } from '@/src/components/EmptyStateAnalistas';
+
+type Props = {
+  plantoes: Plantao[];
+};
+
+export function HomeClient({ plantoes }: Props) {
+  const [selectedDate, setSelectedDate] = useState<string | null>(plantoes[0]?.data ?? null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const plantaoSelecionado = plantoes.find((p) => p.data === selectedDate);
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-3">
+      <CalendarioPlantoes
+        plantoes={plantoes}
+        selectedDate={selectedDate}
+        onSelectDate={(date) => {
+          setIsTransitioning(true);
+
+          setTimeout(() => {
+            setSelectedDate(date);
+            setIsTransitioning(false);
+          }, 150);
+        }}
+      />
+
+      <div
+        className={`lg:col-span-2 transition-all duration-300 ease-in-out ${
+          isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        {plantaoSelecionado ? (
+          <>
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+              <Users size={18} className="text-brand-600" />
+              Analistas de Plantão
+            </h2>
+
+            <ListaAnalistas analistas={plantaoSelecionado.analistas} />
+          </>
+        ) : (
+          <EmptyStateAnalistas />
+        )}
+      </div>
+    </div>
+  );
+}
