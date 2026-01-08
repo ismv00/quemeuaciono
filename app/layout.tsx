@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
-import { Roboto } from 'next/font/google';
+
 import './globals.css';
 import { Footer } from '@/src/components/Footer';
-
+/**
 const roboto = Roboto({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   variable: '--font-roboto',
   display: 'swap',
 });
+*/
 
 export const metadata: Metadata = {
   title: 'Quem eu aciono?',
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} antialiased`}>
+      <body className="antialiased">
         {children} <Footer />
       </body>
     </html>
