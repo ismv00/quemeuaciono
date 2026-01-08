@@ -4,10 +4,11 @@ import { isAnalistaOnline } from '../utils/isAnalistaOnline';
 
 type Props = {
   analistas: Analista[];
+  dataPlantao: string;
   onSelectAnalista: (analista: Analista) => void;
 };
 
-export function ListaAnalistas({ analistas, onSelectAnalista }: Props) {
+export function ListaAnalistas({ analistas, dataPlantao, onSelectAnalista }: Props) {
   if (!analistas.length) {
     return (
       <div className="rounded-lg border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
@@ -22,7 +23,7 @@ export function ListaAnalistas({ analistas, onSelectAnalista }: Props) {
         <CardAnalista
           key={index}
           analista={analista}
-          isOnline={isAnalistaOnline(analista)}
+          isOnline={isAnalistaOnline(analista, dataPlantao)}
           onClick={() => onSelectAnalista(analista)}
         />
       ))}

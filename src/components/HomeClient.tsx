@@ -50,13 +50,14 @@ export function HomeClient({ plantoes }: Props) {
 
             <ListaAnalistas
               analistas={plantaoSelecionado.analistas}
+              dataPlantao={plantaoSelecionado.data}
               onSelectAnalista={setAnalistaSelecionado}
             />
 
             {analistaSelecionado && (
               <ModalAnalista
                 analista={analistaSelecionado}
-                isOnline={isAnalistaOnline(analistaSelecionado)}
+                isOnline={isAnalistaOnline(analistaSelecionado, plantaoSelecionado.data)}
                 onClose={() => setAnalistaSelecionado(null)}
               />
             )}
