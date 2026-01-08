@@ -1,8 +1,8 @@
 'use client';
 
-import { X, Phone } from 'lucide-react';
+import { X, Phone, User } from 'lucide-react';
 import { Analista } from '../types/Analista';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   analista: Analista;
@@ -11,11 +11,7 @@ type Props = {
 };
 
 export function ModalAnalista({ analista, isOnline, onClose }: Props) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const [isVisible, setIsVisible] = useState(true);
 
   function handleClose() {
     setIsVisible(false);
@@ -46,6 +42,8 @@ export function ModalAnalista({ analista, isOnline, onClose }: Props) {
       >
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
+          <User size={20} className="text-brand-600" />
+
           <h2 className="text-lg font-bold text-gray-900">{analista.nome}</h2>
 
           <button
