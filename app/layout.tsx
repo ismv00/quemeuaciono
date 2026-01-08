@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Footer } from '@/src/components/Footer';
 
 /**
 const geistSans = Geist({
@@ -42,7 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jetBrains.variable} antialiased`}>{children}</body>
+      <body className={`${jetBrains.variable} antialiased`}>
+        {children} <Footer />
+      </body>
     </html>
   );
 }
