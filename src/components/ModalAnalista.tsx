@@ -57,13 +57,27 @@ export function ModalAnalista({ analista, isOnline, onClose }: Props) {
         </div>
 
         {/* Conteúdo */}
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2 text-sm">
+          <p>
+            <span className="font-bold text-gray-900"></span> {analista.email}
+          </p>
+
+          <p>
+            <span className="font-medium text-gray-800">Telefone:</span> {analista.whatsapp}
+          </p>
+
           <p>
             <span className="font-medium text-gray-800">Área:</span> {analista.area}
           </p>
 
           <p>
             <span className="font-medium text-gray-800">Regime:</span> {analista.regime}
+          </p>
+
+          <p>
+            <span className="font-medium text-gray-800">Horário Plantão:</span> {analista.inicio}{' '}
+            {'ás '}
+            {analista.fim}
           </p>
 
           <p className="flex items-center gap-2">
