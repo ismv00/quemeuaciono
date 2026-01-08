@@ -6,6 +6,9 @@ import { Plantao } from '@/src/types/Plantao';
 import { CalendarioPlantoes } from '@/src/components/CalendarioPlantoes';
 import { ListaAnalistas } from '@/src/components/ListaAnalistas';
 import { EmptyStateAnalistas } from '@/src/components/EmptyStateAnalistas';
+import { ModalAnalista } from './ModalAnalista';
+import { isAnalistaOnline } from '../utils/isAnalistaOnline';
+import { Analista } from '../types/Analista';
 
 type Props = {
   plantoes: Plantao[];
@@ -14,6 +17,7 @@ type Props = {
 export function HomeClient({ plantoes }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(plantoes[0]?.data ?? null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [analistaSelecionado, setAnalistaSelecionado] = useState<Analista | null>(null);
 
   const plantaoSelecionado = plantoes.find((p) => p.data === selectedDate);
 
@@ -24,7 +28,7 @@ export function HomeClient({ plantoes }: Props) {
         selectedDate={selectedDate}
         onSelectDate={(date) => {
           setIsTransitioning(true);
-
+          setAnalistaSelecionado(null);
           setTimeout(() => {
             setSelectedDate(date);
             setIsTransitioning(false);
@@ -44,7 +48,18 @@ export function HomeClient({ plantoes }: Props) {
               Analistas de Plantão
             </h2>
 
-            <ListaAnalistas analistas={plantaoSelecionado.analistas} />
+            <ListaAnalistas
+              analistas={plantaoSelecionado.analistas}
+              onSelectAnalista={setAnalistaSelecionado}
+            />
+
+            {analistaSelecionado && (
+              <ModalAnalista
+                analista={analistaSelecionado}
+                isOnline={isAnalistaOnline(analistaSelecionado)}
+                onClose={() => setAnalistaSelecionado(null)}
+              />
+            )}
           </>
         ) : (
           <EmptyStateAnalistas />
