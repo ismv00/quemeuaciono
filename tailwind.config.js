@@ -26,7 +26,7 @@ module.exports = {
         info: '#38bdf8',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
       },
     },
   },
