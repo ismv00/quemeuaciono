@@ -12,11 +12,10 @@ export function isAnalistaOnline(analista: Analista): boolean {
   const agora = new Date();
 
   const [horaInicio, minutoInicio] = analista.inicio.split(':').map(Number);
-
   const [horaFim, minutoFim] = analista.fim.split(':').map(Number);
 
   const inicio = new Date();
-  inicio.setHours(horaFim, minutoFim, 0, 0);
+  inicio.setHours(horaInicio, minutoInicio, 0, 0);
 
   const fim = new Date();
   fim.setHours(horaFim, minutoFim, 0, 0);
