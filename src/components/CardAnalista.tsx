@@ -13,44 +13,45 @@ export function CardAnalista({ analista, isOnline, onClick }: Props) {
     <button
       onClick={onClick}
       className="
-        flex w-full items-center justify-between rounded-xl border border-gray-200
+        flex w-full items-start gap-3
+        rounded-xl border border-gray-200
         bg-white p-4 text-left transition
         hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md
         focus:outline-none
       "
     >
-      {/* Lado esquerdo */}
-      <div className="flex min-w-0 items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50">
-          <User size={20} className="text-brand-600" />
-        </div>
-
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="truncate font-semibold text-gray-900">{analista.nome}</span>
-
-            {/* Status online/offline */}
-            <span
-              className={`h-2.5 w-2.5 shrink-0 rounded-full ${
-                isOnline ? 'bg-green-500' : 'bg-red-500'
-              }`}
-            />
-          </div>
-
-          <span className="block truncate text-sm text-gray-500">{analista.area}</span>
-        </div>
+      {/* Ícone */}
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-50">
+        <User size={20} className="text-brand-600" />
       </div>
 
-      {/* Badge regime */}
-      <span
-        className={`inline-flex max-w-[110px] shrink-0 truncate rounded-full px-2 py-0.5 text-xs font-medium ${
-          analista.regime === 'Presencial'
-            ? 'bg-green-50 text-green-700'
-            : 'bg-orange-50 text-orange-700'
-        }`}
-      >
-        {analista.regime}
-      </span>
+      {/* Conteúdo */}
+      <div className="min-w-0 flex-1">
+        {/* Nome + status */}
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-gray-900 break-words">{analista.nome}</span>
+
+          <span
+            className={`h-2.5 w-2.5 shrink-0 rounded-full ${
+              isOnline ? 'bg-green-500' : 'bg-red-500'
+            }`}
+          />
+        </div>
+
+        {/* Área */}
+        <span className="block text-sm text-gray-500 break-words">{analista.area}</span>
+
+        {/* Regime */}
+        <span
+          className={`mt-1 inline-flex w-fit rounded-full px-2 py-0.5 text-xs ${
+            analista.regime === 'Presencial'
+              ? 'bg-green-50 text-green-700'
+              : 'bg-orange-50 text-orange-700'
+          }`}
+        >
+          {analista.regime}
+        </span>
+      </div>
     </button>
   );
 }

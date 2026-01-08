@@ -80,15 +80,20 @@ export function CalendarioPlantoes({ plantoes, selectedDate, onSelectDate }: Pro
 
       {/**DIAS */}
       <div className="grid grid-cols-7 gap-2 text-center">
-        {Array.from({ length: total }).map((_, i) => (
-          <span key={i} />
+        {/* Espaços vazios antes do primeiro dia do mês */}
+        {Array.from({ length: start }).map((_, i) => (
+          <span key={`empty-${i}`} />
         ))}
 
+        {/* Dias do mês */}
         {Array.from({ length: total }).map((_, i) => {
           const day = i + 1;
-          const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-            .toISOString()
-            .split('T')[0];
+
+          const year = currentDate.getFullYear();
+          const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+          const dayStr = String(day).padStart(2, '0');
+
+          const dateStr = `${year}-${month}-${dayStr}`;
 
           const hasPlantao = plantaoDates.includes(dateStr);
           const isSelected = selectedDate === dateStr;

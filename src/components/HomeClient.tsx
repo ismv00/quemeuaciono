@@ -9,6 +9,7 @@ import { EmptyStateAnalistas } from '@/src/components/EmptyStateAnalistas';
 import { ModalAnalista } from './ModalAnalista';
 import { isAnalistaOnline } from '../utils/isAnalistaOnline';
 import { Analista } from '../types/Analista';
+import { InfoDataSeleciona } from './DataSeleciona';
 
 type Props = {
   plantoes: Plantao[];
@@ -20,6 +21,18 @@ export function HomeClient({ plantoes }: Props) {
   const [analistaSelecionado, setAnalistaSelecionado] = useState<Analista | null>(null);
 
   const plantaoSelecionado = plantoes.find((p) => p.data === selectedDate);
+
+  function formatarData(data: string) {
+    const [year, month, day] = data.split('-').map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return date.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+    });
+  }
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
@@ -43,10 +56,15 @@ export function HomeClient({ plantoes }: Props) {
       >
         {plantaoSelecionado ? (
           <>
+            <InfoDataSeleciona label={formatarData(plantaoSelecionado.data)} />
             <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
               <Users size={18} className="text-brand-600" />
               Analistas de Plantão
             </h2>
+
+            <span className="mb-4 flex items-center gap-2 text-sm font-medium text-gray-600">
+              Clique no analista para ver os detalhes
+            </span>
 
             <ListaAnalistas
               analistas={plantaoSelecionado.analistas}
