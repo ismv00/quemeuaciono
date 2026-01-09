@@ -61,10 +61,6 @@ export function ModalAnalista({ analista, isOnline, onClose }: Props) {
           </p>
 
           <p>
-            <span className="font-medium text-gray-800">Telefone:</span> {analista.whatsapp}
-          </p>
-
-          <p>
             <span className="font-medium text-gray-800">Área:</span> {analista.area}
           </p>
 

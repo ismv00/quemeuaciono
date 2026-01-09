@@ -44,6 +44,16 @@ export function HomeClient({ plantoes }: Props) {
     });
   }
 
+  const handleSelectArea = (area: string | null) => {
+    setAreaSelecionada(area);
+
+    // Força scroll suave pro topo
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className="grid gap-8 lg:grid-cols-3">
       <CalendarioPlantoes
@@ -75,7 +85,7 @@ export function HomeClient({ plantoes }: Props) {
             <FiltroArea
               areas={areasDisponiveis}
               areaSelecionada={areaSelecionada}
-              onSelectArea={setAreaSelecionada}
+              onSelectArea={handleSelectArea}
             />
 
             <span className="mb-4 flex items-center gap-2 text-sm font-medium text-gray-600">
