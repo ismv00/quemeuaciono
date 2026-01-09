@@ -10,6 +10,7 @@ import { ModalAnalista } from './ModalAnalista';
 import { isAnalistaOnline } from '../utils/isAnalistaOnline';
 import { Analista } from '../types/Analista';
 import { InfoDataSeleciona } from './DataSeleciona';
+import { FiltroArea } from './FiltroArea';
 
 type Props = {
   plantoes: Plantao[];
@@ -19,8 +20,17 @@ export function HomeClient({ plantoes }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(plantoes[0]?.data ?? null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [analistaSelecionado, setAnalistaSelecionado] = useState<Analista | null>(null);
+  const [areaSelecionada, setAreaSelecionada] = useState<string | null>(null);
 
   const plantaoSelecionado = plantoes.find((p) => p.data === selectedDate);
+
+  // Buscar as areas que temos cadastradas
+  const areasDisponiveis = Array.from(new Set(plantaoSelecionado?.analistas.map((a) => a.area)));
+
+  // Filtrar os analistas
+  const analistasFiltrados = areaSelecionada
+    ? plantaoSelecionado?.analistas.filter((a) => a.area === areaSelecionada)
+    : plantaoSelecionado?.analistas;
 
   function formatarData(data: string) {
     const [year, month, day] = data.split('-').map(Number);
@@ -57,17 +67,24 @@ export function HomeClient({ plantoes }: Props) {
         {plantaoSelecionado ? (
           <>
             <InfoDataSeleciona label={formatarData(plantaoSelecionado.data)} />
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+            <h2 className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-900">
               <Users size={18} className="text-brand-600" />
               Analistas de Plantão
             </h2>
+
+            <FiltroArea
+              areas={areasDisponiveis}
+              areaSelecionada={areaSelecionada}
+              onSelectArea={setAreaSelecionada}
+            />
 
             <span className="mb-4 flex items-center gap-2 text-sm font-medium text-gray-600">
               Clique no analista para ver os detalhes
             </span>
 
             <ListaAnalistas
-              analistas={plantaoSelecionado.analistas}
+              // analistas={plantaoSelecionado.analistas}
+              analistas={analistasFiltrados ?? []}
               dataPlantao={plantaoSelecionado.data}
               onSelectAnalista={setAnalistaSelecionado}
             />
