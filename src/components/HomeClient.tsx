@@ -34,10 +34,13 @@ export function HomeClient({ plantoes }: Props) {
     ? plantaoSelecionado?.analistas.filter((a) => a.categoria === categoriaSelecionada)
     : plantaoSelecionado?.analistas;
 
-  function formatarData(data: string) {
-    const [year, month, day] = data.split('-').map(Number);
+  function formatarData(data?: string) {
+    if (!data) return '';
 
-    const date = new Date(year, month - 1, day);
+    // tenta criar a data diretamente
+    const date = new Date(data);
+
+    if (isNaN(date.getTime())) return '';
 
     return date.toLocaleDateString('pt-BR', {
       weekday: 'long',
