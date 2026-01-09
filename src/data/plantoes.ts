@@ -6,6 +6,7 @@ export const plantoes: Plantao[] = [
     analistas: [
       {
         nome: 'Edson Costa',
+        categoria: 'Consinco',
         area: 'Farmacia',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -15,6 +16,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Igor Menezes',
+        categoria: 'Consinco',
         area: 'Comercial',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -24,6 +26,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Fabio Medeiros',
+        categoria: 'Consinco',
         area: 'Atacado',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -33,6 +36,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Juvenil',
+        categoria: 'Consinco',
         area: 'Operações',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -42,6 +46,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Fabio Lopes',
+        categoria: 'Consinco',
         area: 'WMS - Logística',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -51,6 +56,7 @@ export const plantoes: Plantao[] = [
       },
       {
         nome: 'Fabricio Gerbasi',
+        categoria: 'Consinco',
         area: 'BKOFF - Financeiro',
         regime: 'Sobreaviso',
         inicio: '08:00',
@@ -65,6 +71,7 @@ export const plantoes: Plantao[] = [
     analistas: [
       {
         nome: 'Mariana Costa',
+        categoria: 'Consinco',
         area: 'Banco de Dados',
         regime: 'Presencial',
         inicio: '09:00',
