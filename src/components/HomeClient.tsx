@@ -35,10 +35,13 @@ export function HomeClient({ plantoes }: Props) {
     : plantaoSelecionado?.analistas;
 
   function formatarData(data?: string) {
-    if (!data) return '';
+    if (!data || !data.includes('-')) return '';
 
-    // tenta criar a data diretamente
-    const date = new Date(data);
+    const parts = data.split('-');
+    if (parts.length !== 3) return '';
+
+    const [year, month, day] = parts.map(Number);
+    const date = new Date(year, month - 1, day);
 
     if (isNaN(date.getTime())) return '';
 
