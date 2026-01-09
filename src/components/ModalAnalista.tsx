@@ -61,6 +61,10 @@ export function ModalAnalista({ analista, isOnline, onClose }: Props) {
           </p>
 
           <p>
+            <span className="font-medium text-gray-800">Categoria:</span> {analista.categoria}
+          </p>
+
+          <p>
             <span className="font-medium text-gray-800">Área:</span> {analista.area}
           </p>
 

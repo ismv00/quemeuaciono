@@ -38,6 +38,8 @@ export function CardAnalista({ analista, isOnline, onClick }: Props) {
           />
         </div>
 
+        <span className="block text-sm text-gray-900 break-words">{analista.categoria}</span>
+
         {/* Área */}
         <span className="block text-sm text-gray-500 break-words">{analista.area}</span>
 

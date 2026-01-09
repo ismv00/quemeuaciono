@@ -20,16 +20,18 @@ export function HomeClient({ plantoes }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(plantoes[0]?.data ?? null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [analistaSelecionado, setAnalistaSelecionado] = useState<Analista | null>(null);
-  const [areaSelecionada, setAreaSelecionada] = useState<string | null>(null);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<string | null>(null);
 
   const plantaoSelecionado = plantoes.find((p) => p.data === selectedDate);
 
   // Buscar as areas que temos cadastradas
-  const areasDisponiveis = Array.from(new Set(plantaoSelecionado?.analistas.map((a) => a.area)));
+  const areasDisponiveis = Array.from(
+    new Set(plantaoSelecionado?.analistas.map((a) => a.categoria))
+  );
 
   // Filtrar os analistas
-  const analistasFiltrados = areaSelecionada
-    ? plantaoSelecionado?.analistas.filter((a) => a.area === areaSelecionada)
+  const analistasFiltrados = categoriaSelecionada
+    ? plantaoSelecionado?.analistas.filter((a) => a.categoria === categoriaSelecionada)
     : plantaoSelecionado?.analistas;
 
   function formatarData(data: string) {
@@ -44,8 +46,8 @@ export function HomeClient({ plantoes }: Props) {
     });
   }
 
-  const handleSelectArea = (area: string | null) => {
-    setAreaSelecionada(area);
+  const handleSelectArea = (categoria: string | null) => {
+    setCategoriaSelecionada(categoria);
 
     // Força scroll suave pro topo
     window.scrollTo({
@@ -84,7 +86,7 @@ export function HomeClient({ plantoes }: Props) {
 
             <FiltroArea
               areas={areasDisponiveis}
-              areaSelecionada={areaSelecionada}
+              areaSelecionada={categoriaSelecionada}
               onSelectArea={handleSelectArea}
             />
 

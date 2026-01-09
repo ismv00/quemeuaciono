@@ -12,7 +12,7 @@ export function FiltroArea({ areas, areaSelecionada, onSelectArea }: Props) {
       {/* Header do filtro */}
       <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-gray-500">
         <Filter size={14} />
-        Filtrar por área
+        Filtrar por categoria
       </div>
 
       {/* Opções */}
@@ -20,7 +20,7 @@ export function FiltroArea({ areas, areaSelecionada, onSelectArea }: Props) {
         <button
           onClick={() => onSelectArea(null)}
           className={`
-            rounded-full border px-3 py-1 text-sm font-medium
+            rounded-full border px-4 py-1 text-sm font-medium
             transition-all duration-200
             ${
               areaSelecionada === null
@@ -37,7 +37,7 @@ export function FiltroArea({ areas, areaSelecionada, onSelectArea }: Props) {
             key={area}
             onClick={() => onSelectArea(area)}
             className={`
-              rounded-full border px-3 py-1 text-sm font-medium
+              rounded-full border px-4 py-1 text-sm font-medium
               transition-all duration-200
               ${
                 areaSelecionada === area

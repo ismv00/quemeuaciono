@@ -15,13 +15,13 @@ export async function fetchPlantoes(): Promise<Plantao[]> {
   });
 
   const text = await res.text();
-  const rows = text.split('\n').slice(1);
+  const rows = text.split('\n').slice(0);
 
   const map = new Map<string, Analista[]>();
 
   for (const row of rows) {
     if (!row.trim()) continue;
-    const [data, nome, area, regime, inicio, fim, whatsapp, email] = row.split(',');
+    const [data, nome, categoria, area, regime, inicio, fim, whatsapp, email] = row.split(',');
 
     if (!map.has(data)) {
       map.set(data, []);
@@ -29,6 +29,7 @@ export async function fetchPlantoes(): Promise<Plantao[]> {
 
     map.get(data)!.push({
       nome,
+      categoria,
       area,
       regime: parseRegime(regime),
       inicio,
