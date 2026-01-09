@@ -15,7 +15,7 @@ export async function fetchPlantoes(): Promise<Plantao[]> {
   });
 
   const text = await res.text();
-  const rows = text.split('\n').slice(0);
+  const rows = text.split('\n').slice(1);
 
   const map = new Map<string, Analista[]>();
 
