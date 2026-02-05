@@ -41,7 +41,7 @@ export function HomeClient({ plantoes }: Props) {
     if (parts.length !== 3) return '';
 
     const [year, month, day] = parts.map(Number);
-    const date = new Date(year, month, day);
+    const date = new Date(year, month - 1, day);
 
     if (isNaN(date.getTime())) return '';
 
