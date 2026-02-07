@@ -16,8 +16,23 @@ type Props = {
   plantoes: Plantao[];
 };
 
+function getTodayISO() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
 export function HomeClient({ plantoes }: Props) {
-  const [selectedDate, setSelectedDate] = useState<string | null>(plantoes[0]?.data ?? null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(() => {
+    const today = getTodayISO();
+
+    const hasTodayPlantao = plantoes.some((p) => p.data === today);
+
+    return hasTodayPlantao ? today : null;
+  });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [analistaSelecionado, setAnalistaSelecionado] = useState<Analista | null>(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<string | null>(null);
@@ -78,9 +93,8 @@ export function HomeClient({ plantoes }: Props) {
       />
 
       <div
-        className={`lg:col-span-2 transition-all duration-300 ease-in-out ${
-          isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
-        }`}
+        className={`lg:col-span-2 transition-all duration-300 ease-in-out ${isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+          }`}
       >
         {plantaoSelecionado ? (
           <>
