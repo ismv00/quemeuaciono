@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={manrope.variable}>
+    <html lang="pt-BR" className={`${manrope.variable} scroll-smooth`}>
       <body className="min-h-screen bg-bg font-sans text-ink antialiased">
         <ClerkProvider
           taskUrls={{ 'choose-organization': '/session-tasks/choose-organization' }}
