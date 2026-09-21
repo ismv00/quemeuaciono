@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
+import { clerkLocalizationPtBR } from '@/src/lib/clerkLocalization';
 
 import './globals.css';
 import { Footer } from '@/src/components/Footer';
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${manrope.variable} scroll-smooth`}>
       <body className="min-h-screen bg-bg font-sans text-ink antialiased">
         <ClerkProvider
+          localization={clerkLocalizationPtBR}
           taskUrls={{ 'choose-organization': '/session-tasks/choose-organization' }}
         >
           {children}
