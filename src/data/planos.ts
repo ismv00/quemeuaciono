@@ -20,7 +20,7 @@ export const planos: Plano[] = [
     recursos: [
       'Calendário de plantão público',
       'Cadastro de analistas e escalas',
-      'Acionamento direto via WhatsApp',
+      'Visualização dos dados dos analistas',
       'Relatórios de escalação',
     ],
   },
@@ -34,7 +34,8 @@ export const planos: Plano[] = [
     recursos: [
       'Tudo do plano Básico',
       'Até 15 analistas cadastrados',
-      'Suporte prioritário por e-mail',
+      'Acionamento direto via WhatsApp',
+      'Até 3 categorias',
     ],
   },
   {
@@ -45,8 +46,8 @@ export const planos: Plano[] = [
     descricao: 'Pra empresas com plantão em múltiplas áreas.',
     recursos: [
       'Tudo do plano Profissional',
-      'Analistas ilimitados',
-      'Múltiplas categorias e áreas',
+      'Analistas, categorias e áreas ilimitados',
+      'Acionamento via WhatsApp e e-mail',
     ],
   },
 ];
