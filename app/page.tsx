@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { auth } from '@clerk/nextjs/server';
 import { Calendar, Clock, MessageCircle, PhoneCall, ShieldCheck } from 'lucide-react';
@@ -21,6 +22,33 @@ const recursos = [
     icon: ShieldCheck,
     title: 'Sem mais planilha',
     description: 'Cadastre analistas e escalas pelo próprio app — a planilha fica pra trás.',
+  },
+];
+
+const passos = [
+  {
+    numero: '01',
+    titulo: 'Cadastre seus analistas',
+    descricao: 'Nome, categoria, área e WhatsApp de cada pessoa da equipe — direto pelo app.',
+    imagem: '/screenshots/cadastrar-analista.png',
+  },
+  {
+    numero: '02',
+    titulo: 'Abra a data do plantão',
+    descricao: 'Escolha o dia e monte a escala em segundos, sem mexer em planilha.',
+    imagem: '/screenshots/abrir-plantao.png',
+  },
+  {
+    numero: '03',
+    titulo: 'Escale quem trabalha nela',
+    descricao: 'Adicione o analista, o regime e o horário — quantas vezes precisar no mesmo dia.',
+    imagem: '/screenshots/adicionar-escala.png',
+  },
+  {
+    numero: '04',
+    titulo: 'Acione direto pelo WhatsApp',
+    descricao: 'No dia real do plantão o botão libera, e sua equipe aciona com um clique.',
+    imagem: '/screenshots/acionar-whatsapp.png',
   },
 ];
 
@@ -92,6 +120,44 @@ export default async function LandingPage() {
                   <div className="mt-0.5 text-[13px] leading-relaxed text-muted-2">
                     {description}
                   </div>
+                </div>
+              </div>
+            </RevealOnScroll>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-16 md:px-10">
+        <RevealOnScroll>
+          <div className="mx-auto mb-10 max-w-xl text-center">
+            <h2 className="text-2xl font-extrabold tracking-tight text-ink md:text-3xl">
+              Como funciona
+            </h2>
+            <p className="mt-2 text-sm text-muted">
+              Do cadastro da equipe até o acionamento no dia certo, tudo pelo mesmo app.
+            </p>
+          </div>
+        </RevealOnScroll>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          {passos.map(({ numero, titulo, descricao, imagem }, index) => (
+            <RevealOnScroll key={numero} delay={index * 120}>
+              <div className="overflow-hidden rounded-2xl border border-line bg-white">
+                <div className="relative aspect-[4/3] w-full border-b border-line bg-bg">
+                  <Image
+                    src={imagem}
+                    alt={titulo}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(min-width: 1024px) 560px, (min-width: 640px) 50vw, 100vw"
+                  />
+                </div>
+                <div className="p-5">
+                  <div className="mb-1.5 text-[11px] font-extrabold tracking-[0.08em] text-accent">
+                    PASSO {numero}
+                  </div>
+                  <div className="text-sm font-bold text-ink">{titulo}</div>
+                  <div className="mt-1 text-[13px] leading-relaxed text-muted-2">{descricao}</div>
                 </div>
               </div>
             </RevealOnScroll>
