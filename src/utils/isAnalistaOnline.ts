@@ -15,7 +15,7 @@ export function isAnalistaOnline(analista: Analista, dataPlantao: string): boole
   const [ano, mes, dia] = dataPlantao.split('-').map(Number);
   const dataDoPlantao = new Date(ano, mes - 1, dia);
 
-  // Se não for o dia do plantão, retorna como offline'
+  // Se não for o dia do plantão, retorna como offline
   if (
     agora.getFullYear() !== dataDoPlantao.getFullYear() ||
     agora.getMonth() !== dataDoPlantao.getMonth() ||

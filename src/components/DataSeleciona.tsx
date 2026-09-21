@@ -6,8 +6,8 @@ type Props = {
 
 export function InfoDataSeleciona({ label }: Props) {
   return (
-    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700">
-      <Calendar size={16} />
+    <div className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-tint px-3.5 py-1.5 text-xs font-bold capitalize text-[#57534E]">
+      <Calendar size={12} />
       {label}
     </div>
   );

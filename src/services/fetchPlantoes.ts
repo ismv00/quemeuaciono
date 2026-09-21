@@ -10,18 +10,33 @@ function parseRegime(value: string): Regime {
 }
 
 export async function fetchPlantoes(): Promise<Plantao[]> {
-  const res = await fetch(process.env.PLANTOES_CSV_URL!, {
-    next: { revalidate: 60 },
-  });
+  let res: Response;
+
+  try {
+    res = await fetch(process.env.PLANTOES_CSV_URL!, {
+      next: { revalidate: 60 },
+    });
+  } catch {
+    return [];
+  }
+
+  if (!res.ok) {
+    return [];
+  }
 
   const text = await res.text();
-  const rows = text.split('\n').slice(1);
+  const rows = text.split(/\r\n|\n/).slice(1);
 
   const map = new Map<string, Analista[]>();
 
   for (const row of rows) {
     if (!row.trim()) continue;
-    const [data, nome, categoria, area, regime, inicio, fim, whatsapp, email] = row.split(',');
+
+    const [data, nome, categoria, area, regime, inicio, fim, whatsapp, email] = row
+      .split(',')
+      .map((field) => field.trim());
+
+    if (!data) continue;
 
     if (!map.has(data)) {
       map.set(data, []);

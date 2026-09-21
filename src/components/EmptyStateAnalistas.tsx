@@ -1,15 +1,22 @@
 import { UserX } from 'lucide-react';
 
-export function EmptyStateAnalistas() {
+type Props = {
+  mensagem?: string;
+};
+
+export function EmptyStateAnalistas({
+  mensagem = 'Selecione uma data no calendário para ver os analistas escalados.',
+}: Props) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 p-12 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-gray-400">
-        <UserX size={22} />
+    <div className="flex flex-1 flex-col items-center justify-center gap-3.5 py-10 text-center">
+      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-tint">
+        <UserX size={28} className="text-muted-3" />
       </div>
 
-      <h3 className="text-sm font-semibold text-gray-800">Nenhum analista escalado.</h3>
-
-      <p className="mt-1 text-xs text-gray-500">Não há analistas de plantão para esta data.</p>
+      <div>
+        <h3 className="mb-1 text-base font-extrabold text-ink">Nenhum analista escalado</h3>
+        <p className="max-w-[260px] text-[13px] text-muted-2">{mensagem}</p>
+      </div>
     </div>
   );
 }
