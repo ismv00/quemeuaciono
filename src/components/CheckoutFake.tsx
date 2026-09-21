@@ -32,8 +32,9 @@ export function CheckoutFake({ plano, diasTeste }: Props) {
         </div>
         <h1 className="text-lg font-extrabold text-ink">Teste grátis ativado!</h1>
         <p className="text-sm text-muted-2">
-          Você tem {diasTeste} dias no plano {plano.nome} sem cobrança. Agora crie sua conta pra
-          começar a cadastrar sua equipe e sua escala.
+          Você tem {diasTeste} dias no plano {plano.nome} sem cobrança. Crie sua conta pra começar
+          a cadastrar sua equipe — a forma de pagamento só é configurada depois, dentro do painel,
+          antes do teste acabar.
         </p>
         <Link
           href="/sign-up"

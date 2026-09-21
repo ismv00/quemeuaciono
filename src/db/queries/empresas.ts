@@ -1,8 +1,10 @@
 import { eq } from 'drizzle-orm';
 import { clerkClient } from '@clerk/nextjs/server';
 import { getDb } from '../index';
-import { empresas } from '../schema';
+import { empresas, statusAssinaturaEnum } from '../schema';
 import type { PlanoSlug } from '@/src/data/planos';
+
+export type StatusAssinatura = (typeof statusAssinaturaEnum)[number];
 
 export async function getEmpresaByClerkOrgId(clerkOrgId: string) {
   const db = getDb();
@@ -75,6 +77,38 @@ export async function atualizarPlanoEmpresa(empresaId: string, plano: PlanoSlug)
     .update(empresas)
     .set({ plano })
     .where(eq(empresas.id, empresaId))
+    .returning();
+
+  return empresa ?? null;
+}
+
+export async function salvarAssinaturaAsaas(
+  empresaId: string,
+  dados: { asaasCustomerId: string; asaasSubscriptionId: string }
+) {
+  const db = getDb();
+  const [empresa] = await db
+    .update(empresas)
+    .set(dados)
+    .where(eq(empresas.id, empresaId))
+    .returning();
+
+  return empresa ?? null;
+}
+
+/**
+ * Usada pelo webhook do Asaas: ele só manda o id da assinatura, não o id da
+ * nossa empresa — por isso busca por asaasSubscriptionId.
+ */
+export async function atualizarStatusAssinaturaPorSubscriptionId(
+  asaasSubscriptionId: string,
+  statusAssinatura: StatusAssinatura
+) {
+  const db = getDb();
+  const [empresa] = await db
+    .update(empresas)
+    .set({ statusAssinatura })
+    .where(eq(empresas.asaasSubscriptionId, asaasSubscriptionId))
     .returning();
 
   return empresa ?? null;

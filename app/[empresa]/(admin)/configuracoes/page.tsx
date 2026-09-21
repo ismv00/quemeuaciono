@@ -36,6 +36,10 @@ export default async function ConfiguracoesPage() {
         planoAtual={planoAtual}
         totalAnalistas={analistas.length}
         totalCategorias={categorias.length}
+        nomeEmpresa={empresa.nome}
+        statusAssinatura={empresa.statusAssinatura}
+        asaasSubscriptionId={empresa.asaasSubscriptionId}
+        criadoEm={empresa.createdAt}
       />
 
       <div className="rounded-[20px] border border-line bg-white p-6 shadow-[0_1px_2px_rgba(20,20,20,0.04)] md:p-[30px]">

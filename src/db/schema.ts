@@ -11,6 +11,8 @@ import {
 
 export const planoSlugEnum = ['basico', 'profissional', 'ilimitado'] as const;
 
+export const statusAssinaturaEnum = ['trial', 'ativa', 'atrasada', 'cancelada'] as const;
+
 export const empresas = pgTable('empresas', {
   id: uuid('id').primaryKey().defaultRandom(),
   clerkOrgId: text('clerk_org_id').notNull().unique(),
@@ -20,6 +22,11 @@ export const empresas = pgTable('empresas', {
   // uma migração aditiva. Cadastros novos herdam o plano escolhido no
   // checkout (ver getOrCreateEmpresa) em vez desse default.
   plano: text('plano', { enum: planoSlugEnum }).notNull().default('ilimitado'),
+  statusAssinatura: text('status_assinatura', { enum: statusAssinaturaEnum })
+    .notNull()
+    .default('trial'),
+  asaasCustomerId: text('asaas_customer_id'),
+  asaasSubscriptionId: text('asaas_subscription_id').unique(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
