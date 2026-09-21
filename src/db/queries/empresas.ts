@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 import { clerkClient } from '@clerk/nextjs/server';
 import { getDb } from '../index';
 import { empresas } from '../schema';
+import type { PlanoSlug } from '@/src/data/planos';
 
 export async function getEmpresaByClerkOrgId(clerkOrgId: string) {
   const db = getDb();
@@ -31,7 +32,11 @@ export async function getEmpresaBySlug(slug: string) {
  * - Se não existe: busca o nome no Clerk só nesse primeiro acesso e cria a
  *   linha — não vale a pena pagar essa chamada extra em toda requisição.
  */
-export async function getOrCreateEmpresa(params: { clerkOrgId: string; slug: string }) {
+export async function getOrCreateEmpresa(params: {
+  clerkOrgId: string;
+  slug: string;
+  planoInicial?: PlanoSlug;
+}) {
   const db = getDb();
   const existente = await getEmpresaByClerkOrgId(params.clerkOrgId);
 
@@ -52,9 +57,25 @@ export async function getOrCreateEmpresa(params: { clerkOrgId: string; slug: str
 
   const [empresa] = await db
     .insert(empresas)
-    .values({ clerkOrgId: params.clerkOrgId, slug: params.slug, nome: org.name })
+    .values({
+      clerkOrgId: params.clerkOrgId,
+      slug: params.slug,
+      nome: org.name,
+      ...(params.planoInicial ? { plano: params.planoInicial } : {}),
+    })
     .onConflictDoNothing({ target: empresas.clerkOrgId })
     .returning();
 
   return empresa ?? (await getEmpresaByClerkOrgId(params.clerkOrgId));
+}
+
+export async function atualizarPlanoEmpresa(empresaId: string, plano: PlanoSlug) {
+  const db = getDb();
+  const [empresa] = await db
+    .update(empresas)
+    .set({ plano })
+    .where(eq(empresas.id, empresaId))
+    .returning();
+
+  return empresa ?? null;
 }

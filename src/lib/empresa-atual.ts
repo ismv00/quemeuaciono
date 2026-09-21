@@ -1,7 +1,22 @@
 import { cache } from 'react';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 import { getEmpresaBySlug, getOrCreateEmpresa } from '@/src/db/queries/empresas';
+import { getPlanoPorSlug } from '@/src/data/planos';
+
+const COOKIE_PLANO_SELECIONADO = 'plano_selecionado';
+
+/**
+ * Lê o plano escolhido no checkout fake (cookie gravado por CheckoutFake.tsx
+ * ao confirmar). Só importa no primeiro get-or-create de uma empresa nova —
+ * ver comentário em getOrCreateEmpresa.
+ */
+async function getPlanoEscolhidoNoCheckout() {
+  const jar = await cookies();
+  const valor = jar.get(COOKIE_PLANO_SELECIONADO)?.value;
+  return valor ? (getPlanoPorSlug(valor)?.slug ?? undefined) : undefined;
+}
 
 /**
  * Resolve a empresa (linha no nosso banco) da organização Clerk ativa na
@@ -17,7 +32,8 @@ export const getEmpresaAtual = cache(async () => {
     redirect('/sign-in');
   }
 
-  return getOrCreateEmpresa({ clerkOrgId: orgId, slug: orgSlug });
+  const planoInicial = await getPlanoEscolhidoNoCheckout();
+  return getOrCreateEmpresa({ clerkOrgId: orgId, slug: orgSlug, planoInicial });
 });
 
 /**
@@ -39,7 +55,8 @@ export async function getVisitanteDaEmpresa(slug: string) {
   const { orgId, orgSlug } = await auth();
 
   if (orgId && orgSlug === slug) {
-    const empresa = await getOrCreateEmpresa({ clerkOrgId: orgId, slug });
+    const planoInicial = await getPlanoEscolhidoNoCheckout();
+    const empresa = await getOrCreateEmpresa({ clerkOrgId: orgId, slug, planoInicial });
     return { empresa, isAdmin: true };
   }
 

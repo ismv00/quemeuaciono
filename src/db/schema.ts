@@ -9,11 +9,17 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core';
 
+export const planoSlugEnum = ['basico', 'profissional', 'ilimitado'] as const;
+
 export const empresas = pgTable('empresas', {
   id: uuid('id').primaryKey().defaultRandom(),
   clerkOrgId: text('clerk_org_id').notNull().unique(),
   slug: text('slug').notNull().unique(),
   nome: text('nome').notNull(),
+  // Default 'ilimitado': empresas já em produção não podem ser limitadas por
+  // uma migração aditiva. Cadastros novos herdam o plano escolhido no
+  // checkout (ver getOrCreateEmpresa) em vez desse default.
+  plano: text('plano', { enum: planoSlugEnum }).notNull().default('ilimitado'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 

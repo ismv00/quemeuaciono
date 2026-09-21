@@ -17,9 +17,17 @@ type Props = {
   plantoes: Plantao[];
   empresaNome: string;
   isAdmin: boolean;
+  whatsappHabilitado: boolean;
+  emailHabilitado: boolean;
 };
 
-export function HomeClient({ plantoes, empresaNome, isAdmin }: Props) {
+export function HomeClient({
+  plantoes,
+  empresaNome,
+  isAdmin,
+  whatsappHabilitado,
+  emailHabilitado,
+}: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(() => {
     const today = getTodayISO();
 
@@ -85,6 +93,8 @@ export function HomeClient({ plantoes, empresaNome, isAdmin }: Props) {
               analista={analistaSelecionado}
               isOnline={isAnalistaOnline(analistaSelecionado, plantaoSelecionado.data)}
               podeAcionar={podeAcionar}
+              whatsappHabilitado={whatsappHabilitado}
+              emailHabilitado={emailHabilitado}
               onVoltar={() => setAnalistaSelecionado(null)}
             />
           ) : (

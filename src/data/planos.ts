@@ -1,11 +1,19 @@
+import { planoSlugEnum } from '@/src/db/schema';
+
+export type PlanoSlug = (typeof planoSlugEnum)[number];
+
 export type Plano = {
-  slug: string;
+  slug: PlanoSlug;
   nome: string;
   preco: number;
   limiteAnalistas: string;
   descricao: string;
   destaque?: boolean;
   recursos: string[];
+  maxAnalistas: number | null;
+  maxCategorias: number | null;
+  acionamentoWhatsapp: boolean;
+  acionamentoEmail: boolean;
 };
 
 export const DIAS_TESTE_GRATIS = 15;
@@ -17,6 +25,10 @@ export const planos: Plano[] = [
     preco: 9.9,
     limiteAnalistas: 'até 5 analistas',
     descricao: 'Pra equipes pequenas começarem a sair da planilha.',
+    maxAnalistas: 5,
+    maxCategorias: null,
+    acionamentoWhatsapp: false,
+    acionamentoEmail: false,
     recursos: [
       'Calendário de plantão público',
       'Cadastro de analistas e escalas',
@@ -31,6 +43,10 @@ export const planos: Plano[] = [
     limiteAnalistas: 'até 15 analistas',
     descricao: 'Pra times que já têm uma escala mais robusta.',
     destaque: true,
+    maxAnalistas: 15,
+    maxCategorias: 3,
+    acionamentoWhatsapp: true,
+    acionamentoEmail: false,
     recursos: [
       'Tudo do plano Básico',
       'Até 15 analistas cadastrados',
@@ -44,6 +60,10 @@ export const planos: Plano[] = [
     preco: 59.9,
     limiteAnalistas: 'sem limite de analistas',
     descricao: 'Pra empresas com plantão em múltiplas áreas.',
+    maxAnalistas: null,
+    maxCategorias: null,
+    acionamentoWhatsapp: true,
+    acionamentoEmail: true,
     recursos: [
       'Tudo do plano Profissional',
       'Analistas, categorias e áreas ilimitados',

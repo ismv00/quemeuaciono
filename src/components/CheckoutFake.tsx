@@ -15,7 +15,13 @@ export function CheckoutFake({ plano, diasTeste }: Props) {
 
   function confirmar() {
     setEstado('processando');
-    setTimeout(() => setEstado('sucesso'), 1200);
+    setTimeout(() => {
+      // Lido por getEmpresaAtual() no primeiro login pra herdar o plano
+      // escolhido aqui ao criar a empresa. TTL curto: só precisa sobreviver
+      // ao trajeto checkout -> criar conta, feito na mesma sessão.
+      document.cookie = `plano_selecionado=${plano.slug}; path=/; max-age=3600; samesite=lax`;
+      setEstado('sucesso');
+    }, 1200);
   }
 
   if (estado === 'sucesso') {

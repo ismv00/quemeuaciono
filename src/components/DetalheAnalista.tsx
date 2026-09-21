@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Phone } from 'lucide-react';
+import { ArrowLeft, Mail, Phone } from 'lucide-react';
 import { Analista } from '../types/Analista';
 import { getInitials } from '../utils/initials';
 
@@ -8,10 +8,19 @@ type Props = {
   analista: Analista;
   isOnline: boolean;
   podeAcionar: boolean;
+  whatsappHabilitado: boolean;
+  emailHabilitado: boolean;
   onVoltar: () => void;
 };
 
-export function DetalheAnalista({ analista, isOnline, podeAcionar, onVoltar }: Props) {
+export function DetalheAnalista({
+  analista,
+  isOnline,
+  podeAcionar,
+  whatsappHabilitado,
+  emailHabilitado,
+  onVoltar,
+}: Props) {
   const isPresencial = analista.regime === 'Presencial';
 
   const whatsappLink = analista.whatsapp
@@ -19,6 +28,15 @@ export function DetalheAnalista({ analista, isOnline, podeAcionar, onVoltar }: P
         `Olá ${analista.nome}, preciso de apoio no plantão.`
       )}`
     : '#';
+
+  const emailLink = analista.email
+    ? `mailto:${analista.email}?subject=${encodeURIComponent(
+        'Acionamento de plantão'
+      )}&body=${encodeURIComponent(`Olá ${analista.nome}, preciso de apoio no plantão.`)}`
+    : '#';
+
+  const podeAcionarWhatsapp = podeAcionar && whatsappHabilitado;
+  const podeAcionarEmail = podeAcionar && emailHabilitado && Boolean(analista.email);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -95,33 +113,71 @@ export function DetalheAnalista({ analista, isOnline, podeAcionar, onVoltar }: P
       </div>
 
       <div className="mt-auto">
-        <a
-          href={podeAcionar ? whatsappLink : undefined}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-disabled={!podeAcionar}
-          onClick={(e) => {
-            if (!podeAcionar) e.preventDefault();
-          }}
-          className={`flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-[15px] text-sm font-extrabold transition ${
-            podeAcionar
-              ? 'cursor-pointer bg-accent text-white hover:brightness-95'
-              : 'cursor-not-allowed bg-[#EDECE7] text-[#A8A6A0]'
-          }`}
-        >
-          <Phone size={17} />
-          Acionar via WhatsApp
-        </a>
+        {whatsappHabilitado ? (
+          <>
+            <a
+              href={podeAcionarWhatsapp ? whatsappLink : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-disabled={!podeAcionarWhatsapp}
+              onClick={(e) => {
+                if (!podeAcionarWhatsapp) e.preventDefault();
+              }}
+              className={`flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-[15px] text-sm font-extrabold transition ${
+                podeAcionarWhatsapp
+                  ? 'cursor-pointer bg-accent text-white hover:brightness-95'
+                  : 'cursor-not-allowed bg-[#EDECE7] text-[#A8A6A0]'
+              }`}
+            >
+              <Phone size={17} />
+              Acionar via WhatsApp
+            </a>
 
-        <p
-          className={`mt-2.5 text-center text-xs ${
-            podeAcionar ? 'font-bold text-ativo-fg' : 'text-muted-2'
-          }`}
-        >
-          {podeAcionar
-            ? 'Plantão de hoje — você já pode acionar.'
-            : 'Disponível apenas no dia do plantão deste analista.'}
-        </p>
+            <p
+              className={`mt-2.5 text-center text-xs ${
+                podeAcionarWhatsapp ? 'font-bold text-ativo-fg' : 'text-muted-2'
+              }`}
+            >
+              {podeAcionarWhatsapp
+                ? 'Plantão de hoje — você já pode acionar.'
+                : 'Disponível apenas no dia do plantão deste analista.'}
+            </p>
+
+            {emailHabilitado && (
+              <>
+                <a
+                  href={podeAcionarEmail ? emailLink : undefined}
+                  aria-disabled={!podeAcionarEmail}
+                  onClick={(e) => {
+                    if (!podeAcionarEmail) e.preventDefault();
+                  }}
+                  className={`mt-2.5 flex w-full items-center justify-center gap-2 rounded-2xl border px-4 py-[13px] text-sm font-extrabold transition ${
+                    podeAcionarEmail
+                      ? 'cursor-pointer border-line bg-white text-ink hover:bg-tint'
+                      : 'cursor-not-allowed border-[#EDECE7] bg-[#F7F6F3] text-[#A8A6A0]'
+                  }`}
+                >
+                  <Mail size={17} />
+                  Acionar por e-mail
+                </a>
+                {!analista.email && (
+                  <p className="mt-1.5 text-center text-xs text-muted-2">
+                    Este analista não tem e-mail cadastrado.
+                  </p>
+                )}
+              </>
+            )}
+          </>
+        ) : (
+          <div className="rounded-2xl border border-[#ECEAE3] bg-[#FAF9F6] p-4 text-center">
+            <div className="text-sm font-bold text-ink">
+              {analista.whatsapp || 'WhatsApp não cadastrado'}
+            </div>
+            <p className="mt-1 text-xs text-muted-2">
+              Acionamento direto disponível a partir do plano Profissional.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { getDb } from '../index';
 import { analistas } from '../schema';
 
@@ -17,6 +17,27 @@ export async function getAnalistasDaEmpresa(empresaId: string) {
     .from(analistas)
     .where(and(eq(analistas.empresaId, empresaId), eq(analistas.ativo, true)))
     .orderBy(analistas.nome);
+}
+
+/**
+ * Categorias distintas em uso pela empresa (ignora string vazia). Usada pra
+ * checar o limite de categorias do plano. `excluirAnalistaId` tira o próprio
+ * analista da contagem ao editar — senão renomear a única categoria "X" pra
+ * "Y" com o limite cheio bloquearia incorretamente.
+ */
+export async function getCategoriasDaEmpresa(empresaId: string, excluirAnalistaId?: string) {
+  const db = getDb();
+  const condicoes = [eq(analistas.empresaId, empresaId), eq(analistas.ativo, true)];
+  if (excluirAnalistaId) {
+    condicoes.push(ne(analistas.id, excluirAnalistaId));
+  }
+
+  const linhas = await db
+    .selectDistinct({ categoria: analistas.categoria })
+    .from(analistas)
+    .where(and(...condicoes));
+
+  return linhas.map((l) => l.categoria).filter((c) => c.trim().length > 0);
 }
 
 export async function getAnalistaById(id: string, empresaId: string) {

@@ -4,8 +4,11 @@ import { Calendar } from 'lucide-react';
 import { PageHeader } from '@/src/components/PageHeader';
 import { AbrirPlantaoForm } from '@/src/components/AbrirPlantaoForm';
 import { EmptyStateAnalistas } from '@/src/components/EmptyStateAnalistas';
+import { PlanoCard } from '@/src/components/PlanoCard';
 import { listarPlantoesResumo } from '@/src/db/queries/plantoes';
+import { getAnalistasDaEmpresa, getCategoriasDaEmpresa } from '@/src/db/queries/analistas';
 import { getEmpresaAtual } from '@/src/lib/empresa-atual';
+import { getPlanoPorSlug } from '@/src/data/planos';
 import { formatarDataLonga } from '@/src/utils/date';
 
 export const metadata: Metadata = {
@@ -14,7 +17,12 @@ export const metadata: Metadata = {
 
 export default async function ConfiguracoesPage() {
   const empresa = await getEmpresaAtual();
-  const plantoes = await listarPlantoesResumo(empresa.id);
+  const [plantoes, analistas, categorias] = await Promise.all([
+    listarPlantoesResumo(empresa.id),
+    getAnalistasDaEmpresa(empresa.id),
+    getCategoriasDaEmpresa(empresa.id),
+  ]);
+  const planoAtual = getPlanoPorSlug(empresa.plano)!;
 
   return (
     <div className="flex flex-1 flex-col gap-6 px-4 py-8 md:px-10 md:py-9">
@@ -22,6 +30,12 @@ export default async function ConfiguracoesPage() {
         eyebrow="GESTÃO"
         title="Configurações"
         lede="Monte a escala: abra uma data e escale quem trabalha nela."
+      />
+
+      <PlanoCard
+        planoAtual={planoAtual}
+        totalAnalistas={analistas.length}
+        totalCategorias={categorias.length}
       />
 
       <div className="rounded-[20px] border border-line bg-white p-6 shadow-[0_1px_2px_rgba(20,20,20,0.04)] md:p-[30px]">
